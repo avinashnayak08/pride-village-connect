@@ -1,5 +1,6 @@
 import { useLang, ui } from "@/lib/lang";
-import iconUrl from "/icon-192.png?url";
+
+const iconUrl = "/icon-192.png";
 
 export function AppHeader({ subtitle }: { subtitle?: string }) {
   const { lang, setLang, t } = useLang();
