@@ -9,10 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as StarsRouteImport } from './routes/stars'
 import { Route as MealsRouteImport } from './routes/meals'
 import { Route as FacilitiesRouteImport } from './routes/facilities'
 import { Route as IndexRouteImport } from './routes/index'
 
+const StarsRoute = StarsRouteImport.update({
+  id: '/stars',
+  path: '/stars',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MealsRoute = MealsRouteImport.update({
   id: '/meals',
   path: '/meals',
@@ -33,34 +39,45 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/facilities': typeof FacilitiesRoute
   '/meals': typeof MealsRoute
+  '/stars': typeof StarsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/facilities': typeof FacilitiesRoute
   '/meals': typeof MealsRoute
+  '/stars': typeof StarsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/facilities': typeof FacilitiesRoute
   '/meals': typeof MealsRoute
+  '/stars': typeof StarsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/facilities' | '/meals'
+  fullPaths: '/' | '/facilities' | '/meals' | '/stars'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/facilities' | '/meals'
-  id: '__root__' | '/' | '/facilities' | '/meals'
+  to: '/' | '/facilities' | '/meals' | '/stars'
+  id: '__root__' | '/' | '/facilities' | '/meals' | '/stars'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FacilitiesRoute: typeof FacilitiesRoute
   MealsRoute: typeof MealsRoute
+  StarsRoute: typeof StarsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/stars': {
+      id: '/stars'
+      path: '/stars'
+      fullPath: '/stars'
+      preLoaderRoute: typeof StarsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/meals': {
       id: '/meals'
       path: '/meals'
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FacilitiesRoute: FacilitiesRoute,
   MealsRoute: MealsRoute,
+  StarsRoute: StarsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
