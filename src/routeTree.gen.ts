@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as StarsRouteImport } from './routes/stars'
 import { Route as MealsRouteImport } from './routes/meals'
+import { Route as FeedbackRouteImport } from './routes/feedback'
 import { Route as FacilitiesRouteImport } from './routes/facilities'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -22,6 +23,11 @@ const StarsRoute = StarsRouteImport.update({
 const MealsRoute = MealsRouteImport.update({
   id: '/meals',
   path: '/meals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeedbackRoute = FeedbackRouteImport.update({
+  id: '/feedback',
+  path: '/feedback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FacilitiesRoute = FacilitiesRouteImport.update({
@@ -38,12 +44,14 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/facilities': typeof FacilitiesRoute
+  '/feedback': typeof FeedbackRoute
   '/meals': typeof MealsRoute
   '/stars': typeof StarsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/facilities': typeof FacilitiesRoute
+  '/feedback': typeof FeedbackRoute
   '/meals': typeof MealsRoute
   '/stars': typeof StarsRoute
 }
@@ -51,20 +59,22 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/facilities': typeof FacilitiesRoute
+  '/feedback': typeof FeedbackRoute
   '/meals': typeof MealsRoute
   '/stars': typeof StarsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/facilities' | '/meals' | '/stars'
+  fullPaths: '/' | '/facilities' | '/feedback' | '/meals' | '/stars'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/facilities' | '/meals' | '/stars'
-  id: '__root__' | '/' | '/facilities' | '/meals' | '/stars'
+  to: '/' | '/facilities' | '/feedback' | '/meals' | '/stars'
+  id: '__root__' | '/' | '/facilities' | '/feedback' | '/meals' | '/stars'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FacilitiesRoute: typeof FacilitiesRoute
+  FeedbackRoute: typeof FeedbackRoute
   MealsRoute: typeof MealsRoute
   StarsRoute: typeof StarsRoute
 }
@@ -83,6 +93,13 @@ declare module '@tanstack/react-router' {
       path: '/meals'
       fullPath: '/meals'
       preLoaderRoute: typeof MealsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/feedback': {
+      id: '/feedback'
+      path: '/feedback'
+      fullPath: '/feedback'
+      preLoaderRoute: typeof FeedbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/facilities': {
@@ -105,6 +122,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FacilitiesRoute: FacilitiesRoute,
+  FeedbackRoute: FeedbackRoute,
   MealsRoute: MealsRoute,
   StarsRoute: StarsRoute,
 }
